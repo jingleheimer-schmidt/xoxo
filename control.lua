@@ -105,13 +105,13 @@ local function on_tick(event)
                 create_render_text(player, text, player.position)
             end
         end
-        if event.tick % 20 == 0 then
+        if event.tick % 1 == 0 then
             if hugs > 0 then
-                hugs = hugs - 1
+                hugs = math.max(0, hugs - 0.075)
                 storage.xoxo[player_index].hugs = hugs
             end
             if kisses > 0 then
-                kisses = kisses - 1
+                kisses = math.max(0, kisses - 0.075)
                 storage.xoxo[player_index].kisses = kisses
             end
         end
