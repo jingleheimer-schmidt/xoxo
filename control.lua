@@ -139,3 +139,16 @@ local function on_tick(event)
 end
 
 script.on_event(defines.events.on_tick, on_tick)
+
+---@class xoxo_data
+---@field hugs number
+---@field kisses number
+
+---@class xoxo_render_object
+---@field origin MapPosition
+---@field direction number
+---@field created_tick uint
+---@field upward_speed number
+---@field sideways_speed number
+---@field gravity number
+---@field render_object LuaRenderObject
