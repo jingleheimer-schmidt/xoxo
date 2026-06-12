@@ -61,3 +61,32 @@ local function create_render_text(player, text, position)
         render_object = render_object,
     })
 end
+
+---@param event EventData.CustomInputEvent
+local function on_hug(event)
+    local player_index = event.player_index
+    storage.xoxo = storage.xoxo or {}
+    storage.xoxo[player_index] = storage.xoxo[player_index] or {}
+    storage.xoxo[player_index].hugs = (storage.xoxo[player_index].hugs or 0) + 1
+    local text = xoxo_text[math.random(1, #xoxo_text)]
+    local player = game.get_player(player_index)
+    if player then
+        create_render_text(player, "o", player.position)
+    end
+end
+
+---@param event EventData.CustomInputEvent
+local function on_kiss(event)
+    local player_index = event.player_index
+    storage.xoxo = storage.xoxo or {}
+    storage.xoxo[player_index] = storage.xoxo[player_index] or {}
+    storage.xoxo[player_index].kisses = (storage.xoxo[player_index].kisses or 0) + 1
+    local text = xoxo_text[math.random(1, #xoxo_text)]
+    local player = game.get_player(player_index)
+    if player then
+        create_render_text(player, "x", player.position)
+    end
+end
+
+script.on_event("xoxo-hug", on_hug)
+script.on_event("xoxo-kiss", on_kiss)
