@@ -90,3 +90,52 @@ end
 
 script.on_event("xoxo-hug", on_hug)
 script.on_event("xoxo-kiss", on_kiss)
+
+local function on_tick(event)
+    --[[@type table<integer, xoxo_data>]]
+    storage.xoxo = storage.xoxo or {}
+    for _, player in pairs(game.connected_players) do
+        local player_index = player.index
+        storage.xoxo[player_index] = storage.xoxo[player_index] or {}
+        local hugs = storage.xoxo[player_index].hugs or 0
+        local kisses = storage.xoxo[player_index].kisses or 0
+        if hugs > 0 and kisses > 0 then
+            if math.random() < 0.125 then
+                local text = xoxo_text[math.random(1, #xoxo_text)]
+                create_render_text(player, text, player.position)
+            end
+        end
+        if event.tick % 20 == 0 then
+            if hugs > 0 then
+                hugs = hugs - 1
+                storage.xoxo[player_index].hugs = hugs
+            end
+            if kisses > 0 then
+                kisses = kisses - 1
+                storage.xoxo[player_index].kisses = kisses
+            end
+        end
+    end
+    --[[@type xoxo_render_object[] ]]
+    storage.render_objects = storage.render_objects or {}
+    for i = #storage.render_objects, 1, -1 do
+        local xoxo_render_object = storage.render_objects[i]
+        local render_object = xoxo_render_object.render_object
+        if render_object.valid then
+            local position = render_object.target.position
+            if position then
+                local age = event.tick - xoxo_render_object.created_tick
+                local x = xoxo_render_object.origin.x
+                    + xoxo_render_object.direction * xoxo_render_object.sideways_speed * age
+                local y = xoxo_render_object.origin.y
+                    - xoxo_render_object.upward_speed * age
+                    + xoxo_render_object.gravity * age * age
+                render_object.target = { x = x, y = y }
+            end
+        else
+            table.remove(storage.render_objects, i)
+        end
+    end
+end
+
+script.on_event(defines.events.on_tick, on_tick)
