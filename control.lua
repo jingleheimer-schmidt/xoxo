@@ -141,6 +141,14 @@ local function on_tick(event)
                     + xoxo_render_object.gravity * age * age
                 render_object.target = { x = x, y = y }
             end
+            -- local color = render_object.color
+            -- if color then
+            --     local age = event.tick - xoxo_render_object.created_tick
+            --     if age > 60 then
+            --         color.a = math.max(0, color.a - age / 95)
+            --         render_object.color = color
+            --     end
+            -- end
         else
             table.remove(storage.render_objects, i)
         end
