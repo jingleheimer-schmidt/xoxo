@@ -22,7 +22,7 @@ local function create_render_text(player, text, position)
     local velocity_x = math.cos(angle) * speed
     local velocity_y = math.sin(angle) * speed
     table.insert(storage.render_objects, {
-        origin = { x = player.position.x - 0.5, y = player.position.y - 1.75 },
+        origin = { x = position.x - 0.5, y = position.y - 1.75 },
         created_tick = game.tick,
         gravity = 0.00035 + math.random() * 0.00015,
         velocity_x = velocity_x,
@@ -53,7 +53,7 @@ local function create_render_sprite(player, position)
     local velocity_x = math.cos(angle) * speed
     local velocity_y = math.sin(angle) * speed
     table.insert(storage.render_objects, {
-        origin = { x = player.position.x - 0.0, y = player.position.y - 1.65 },
+        origin = { x = position.x - 0.0, y = position.y - 1.65 },
         created_tick = game.tick,
         gravity = 0.00035 + math.random() * 0.00025,
         velocity_x = velocity_x,
@@ -71,7 +71,9 @@ local function on_hug(event)
     local text = xoxo_text[math.random(1, #xoxo_text)]
     local player = game.get_player(player_index)
     if player then
-        create_render_sprite(player, player.position)
+        local character = player.character
+        if not character then return end
+        create_render_sprite(player, character.position)
         -- create_render_text(player, "o", player.position)
     end
 end
@@ -85,7 +87,9 @@ local function on_kiss(event)
     local text = xoxo_text[math.random(1, #xoxo_text)]
     local player = game.get_player(player_index)
     if player then
-        create_render_sprite(player, player.position)
+        local character = player.character
+        if not character then return end
+        create_render_sprite(player, character.position)
         -- create_render_text(player, "x", player.position)
     end
 end
@@ -102,8 +106,10 @@ local function on_tick(event)
         local hugs = storage.xoxo[player_index].hugs or 0
         local kisses = storage.xoxo[player_index].kisses or 0
         if hugs > 0 and kisses > 0 then
-            if math.random() < 0.125 then
-                create_render_sprite(player, player.position)
+            if math.random() < 0.15 then
+                local character = player.character
+                if not character then return end
+                create_render_sprite(player, character.position)
                 -- local text = xoxo_text[math.random(1, #xoxo_text)]
                 -- create_render_text(player, text, player.position)
             end
