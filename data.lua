@@ -8,6 +8,7 @@ local hugs = {
     action = "lua",
 }
 
+---@type data.CustomInputPrototype
 local kisses = {
     type = "custom-input",
     name = "xoxo-kiss",
@@ -24,8 +25,9 @@ data:extend {
 local constants = require("constants")
 local path = constants.xoxo_sprite_path
 local total_sprite_count = constants.xoxo_sprite_count
+
 for i = 1, total_sprite_count do
-    --[[@type data.SpritePrototype]]
+    ---@type data.SpritePrototype
     local sprite = {
         type = "sprite",
         name = "xoxo_" .. i,
