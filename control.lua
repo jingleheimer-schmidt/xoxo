@@ -17,13 +17,16 @@ local function create_render_text(player, text, position)
         scale = math.random() * 0.5 + 5,
     }
     storage.render_objects = storage.render_objects or {}
+    local angle = -math.pi + math.random() * math.pi
+    local speed = 0.045 + math.random() * 0.025
+    local velocity_x = math.cos(angle) * speed
+    local velocity_y = math.sin(angle) * speed
     table.insert(storage.render_objects, {
         origin = { x = player.position.x - 0.5, y = player.position.y - 1.75 },
-        direction = math.random() < 0.5 and -1 or 1,
         created_tick = game.tick,
-        upward_speed = 0.035 + math.random() * 0.015,
-        sideways_speed = 0.018 + math.random() * 0.015,
         gravity = 0.00035 + math.random() * 0.00015,
+        velocity_x = velocity_x,
+        velocity_y = velocity_y,
         render_object = render_object,
     })
 end
@@ -31,26 +34,30 @@ end
 ---@param player LuaPlayer
 ---@param position MapPosition
 local function create_render_sprite(player, position)
-    local sprite_index = math.random(1, 113)
+    local sprite_index = math.random(1, total_sprite_count)
+    local scale = 1 / (50 + math.random(-10, 10))
     local render_object = rendering.draw_sprite {
         sprite = "xoxo_" .. sprite_index,
         surface = player.surface,
         target = position,
-        tint = { player.color.r, player.color.g, player.color.b, 0.5 },
-        time_to_live = 90,
-        x_scale = 1 / 50,
-        y_scale = 1 / 50,
+        tint = { player.color.r, player.color.g, player.color.b, player.color.a },
+        time_to_live = 95,
+        x_scale = scale,
+        y_scale = scale,
         orientation_target = position,
         orientation = 0.5
     }
     storage.render_objects = storage.render_objects or {}
+    local angle = -math.pi + math.random() * math.pi
+    local speed = 0.045 + math.random() * 0.025
+    local velocity_x = math.cos(angle) * speed
+    local velocity_y = math.sin(angle) * speed
     table.insert(storage.render_objects, {
         origin = { x = player.position.x - 0.0, y = player.position.y - 1.65 },
-        direction = math.random() < 0.5 and -1 or 1,
         created_tick = game.tick,
-        upward_speed = 0.035 + math.random() * 0.025,
-        sideways_speed = 0.018 + math.random() * 0.025,
         gravity = 0.00035 + math.random() * 0.00025,
+        velocity_x = velocity_x,
+        velocity_y = velocity_y,
         render_object = render_object,
     })
 end
@@ -122,9 +129,9 @@ local function on_tick(event)
             if position then
                 local age = event.tick - xoxo_render_object.created_tick
                 local x = xoxo_render_object.origin.x
-                    + xoxo_render_object.direction * xoxo_render_object.sideways_speed * age
+                    + xoxo_render_object.velocity_x * age
                 local y = xoxo_render_object.origin.y
-                    - xoxo_render_object.upward_speed * age
+                    + xoxo_render_object.velocity_y * age
                     + xoxo_render_object.gravity * age * age
                 render_object.target = { x = x, y = y }
             end
@@ -142,9 +149,8 @@ script.on_event(defines.events.on_tick, on_tick)
 
 ---@class xoxo_render_object
 ---@field origin MapPosition
----@field direction number
 ---@field created_tick uint
----@field upward_speed number
----@field sideways_speed number
 ---@field gravity number
+---@field velocity_x number
+---@field velocity_y number
 ---@field render_object LuaRenderObject
