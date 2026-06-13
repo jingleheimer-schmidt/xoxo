@@ -1,41 +1,7 @@
 
-local xoxo_text = {
-    ":-*",
-    ":*",
-    ";*",
-    ";-*",
-    "=*",
-    ":x",
-    ":X",
-    "xx",
-    "xxx",
-    "xxxx",
-    "xox",
-    "xoxo",
-    "xo xo",
-    "mwah",
-    "*mwah*",
-    "muah",
-    "muah!",
-    "x",
-    "X",
-    "xo",
-    "xoxo",
-    "XOXO",
-    ":*",
-    ":-*",
-    ":x",
-    ":-x",
-    "*smooch*",
-    "*kiss*",
-    "*kith*",
-    "mwah~*",
-    "chu~",
-    "chu!",
-    "chu♡",
-    "xo~xo",
-    "xoxo~",
-}
+local constants = require("constants")
+local xoxo_text = constants.xoxo_text
+local total_sprite_count = constants.xoxo_sprite_count
 
 ---@param player LuaPlayer
 ---@param text string

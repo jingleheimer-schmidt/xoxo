@@ -21,8 +21,9 @@ data:extend {
     kisses,
 }
 
-local path = "__xoxo__/graphics/standardized/xoxo_"
-local total_sprite_count = 113
+local constants = require("constants")
+local path = constants.xoxo_sprite_path
+local total_sprite_count = constants.xoxo_sprite_count
 for i = 1, total_sprite_count do
     --[[@type data.SpritePrototype]]
     local sprite = {
@@ -31,6 +32,7 @@ for i = 1, total_sprite_count do
         filename = path .. i .. ".png",
         width = 836,
         height = 836,
+        tint = { 1, 1, 1, 1 },
         apply_runtime_tint = true,
         invert_colors = true,
         usage = "player"
