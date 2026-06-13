@@ -35,7 +35,7 @@ end
 ---@param position MapPosition
 local function create_render_sprite(player, position)
     local sprite_index = math.random(1, total_sprite_count)
-    local scale = 1 / (50 + math.random(-10, 10))
+    local scale = 1 / (50 + math.random(-20, 20))
     local render_object = rendering.draw_sprite {
         sprite = "xoxo_" .. sprite_index,
         surface = player.surface,
@@ -55,7 +55,7 @@ local function create_render_sprite(player, position)
     table.insert(storage.render_objects, {
         origin = { x = position.x - 0.0, y = position.y - 1.65 },
         created_tick = game.tick,
-        gravity = 0.00035 + math.random() * 0.00025,
+        gravity = (scale / 100) + math.random() * (scale / 100),
         velocity_x = velocity_x,
         velocity_y = velocity_y,
         render_object = render_object,
@@ -116,11 +116,11 @@ local function on_tick(event)
         end
         if event.tick % 1 == 0 then
             if hugs > 0 then
-                hugs = math.max(0, hugs - 0.075)
+                hugs = math.max(0, hugs - 0.05)
                 storage.xoxo[player_index].hugs = hugs
             end
             if kisses > 0 then
-                kisses = math.max(0, kisses - 0.075)
+                kisses = math.max(0, kisses - 0.05)
                 storage.xoxo[player_index].kisses = kisses
             end
         end
