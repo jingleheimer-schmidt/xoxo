@@ -62,6 +62,33 @@ local function create_render_text(player, text, position)
     })
 end
 
+---@param player LuaPlayer
+---@param position MapPosition
+local function create_render_sprite(player, position)
+    local sprite_index = math.random(1, 113)
+    local render_object = rendering.draw_sprite {
+        sprite = "xoxo_" .. sprite_index,
+        surface = player.surface,
+        target = position,
+        tint = { player.color.r, player.color.g, player.color.b, 0.5 },
+        time_to_live = 90,
+        x_scale = 1 / 50,
+        y_scale = 1 / 50,
+        orientation_target = position,
+        orientation = 0.5
+    }
+    storage.render_objects = storage.render_objects or {}
+    table.insert(storage.render_objects, {
+        origin = { x = player.position.x - 0.0, y = player.position.y - 1.65 },
+        direction = math.random() < 0.5 and -1 or 1,
+        created_tick = game.tick,
+        upward_speed = 0.035 + math.random() * 0.025,
+        sideways_speed = 0.018 + math.random() * 0.025,
+        gravity = 0.00035 + math.random() * 0.00025,
+        render_object = render_object,
+    })
+end
+
 ---@param event EventData.CustomInputEvent
 local function on_hug(event)
     local player_index = event.player_index
@@ -71,7 +98,8 @@ local function on_hug(event)
     local text = xoxo_text[math.random(1, #xoxo_text)]
     local player = game.get_player(player_index)
     if player then
-        create_render_text(player, "o", player.position)
+        create_render_sprite(player, player.position)
+        -- create_render_text(player, "o", player.position)
     end
 end
 
@@ -84,7 +112,8 @@ local function on_kiss(event)
     local text = xoxo_text[math.random(1, #xoxo_text)]
     local player = game.get_player(player_index)
     if player then
-        create_render_text(player, "x", player.position)
+        create_render_sprite(player, player.position)
+        -- create_render_text(player, "x", player.position)
     end
 end
 
@@ -101,8 +130,9 @@ local function on_tick(event)
         local kisses = storage.xoxo[player_index].kisses or 0
         if hugs > 0 and kisses > 0 then
             if math.random() < 0.125 then
-                local text = xoxo_text[math.random(1, #xoxo_text)]
-                create_render_text(player, text, player.position)
+                create_render_sprite(player, player.position)
+                -- local text = xoxo_text[math.random(1, #xoxo_text)]
+                -- create_render_text(player, text, player.position)
             end
         end
         if event.tick % 1 == 0 then
