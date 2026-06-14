@@ -105,13 +105,23 @@ local function on_tick(event)
         storage.xoxo[player_index] = storage.xoxo[player_index] or {}
         local hugs = storage.xoxo[player_index].hugs or 0
         local kisses = storage.xoxo[player_index].kisses or 0
-        if hugs > 0 and kisses > 0 then
+        local character = player.character
+        if character and hugs > 0 and kisses > 0 then
             if math.random() < 0.15 then
-                local character = player.character
-                if not character then return end
                 create_render_sprite(player, character.position)
                 -- local text = xoxo_text[math.random(1, #xoxo_text)]
                 -- create_render_text(player, text, player.position)
+            end
+        end
+        if character then
+            local stickers = character.stickers
+            if stickers then
+                for _, sticker in pairs(stickers) do
+                    if string.find(sticker.name, "xoxo_") then
+                        storage.xoxo[player_index].hugs = (storage.xoxo[player_index].hugs or 0) + 0.0125
+                        storage.xoxo[player_index].kisses = (storage.xoxo[player_index].kisses or 0) + 0.0125
+                    end
+                end
             end
         end
         if event.tick % 1 == 0 then

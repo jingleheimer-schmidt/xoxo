@@ -41,4 +41,16 @@ for i = 1, total_sprite_count do
         usage = "player"
     }
     data:extend { sprite }
+    ---@type data.StickerPrototype
+    local sticker = {
+        type = "sticker",
+        name = "xoxo_" .. i,
+        animation = sprite --[[@as data.Animation]],
+        duration_in_ticks = 60 * 69,
+        hidden = true,
+        hidden_in_factoriopedia = true,
+        damage_interval = 1,
+        damage_per_tick = { amount = -0.01, type = "physical" },
+    }
+    data:extend { sticker }
 end
