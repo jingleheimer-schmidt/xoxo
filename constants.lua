@@ -1,6 +1,6 @@
 
-local xoxo_sprite_count = 113
-local xoxo_sprite_path = "__xoxo__/graphics/sprites/standardized/xoxo_"
+local xoxo_sprite_count = 204
+local xoxo_sprite_path = "__xoxo__/graphics/xoxo/xoxo_"
 local xoxo_text = {
     ":-*",
     ":*",
