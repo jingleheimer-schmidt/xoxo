@@ -7,7 +7,7 @@ hugs and kisses! press xoxo to tell your friends you love them
 ---------------------
 # Features
 - press x and o to send out hugs and kisses <3
-- 113 hand-drawn sprites
+- 200+ hand-drawn sprites
 
 ---------------------
 ## Companion Mods
