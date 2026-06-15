@@ -2,17 +2,17 @@
 
 ---------------------
 # Overview
-hugs and kisses! press xoxo to tell your friends you love them
+Press xoxo to show how much you care with a bunch of hearts and xoxo drawings
 
 ---------------------
 # Features
-- press x and o to send out hugs and kisses <3
-- 200+ hand-drawn sprites
+- press x and o to send out hugs and kisses with 200+ hand-drawn sprites
+- throwable xoxo barrels splash nearby players with ~xoxo~ and grant a minor healing effect
 
 ---------------------
 ## Companion Mods
 xoxo is a companion mod to:
-[Rainbow Character](https://mods.factorio.com/mod/rainbow-character)
+[Rainbow Character](https://mods.factorio.com/mod/rainbow-character) - adds animated color themes for the character (rainbows, pride flags, countries)
 
 ---------------------
 # Translation
