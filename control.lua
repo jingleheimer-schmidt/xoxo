@@ -113,7 +113,7 @@ end
 
 ---@param event EventData.on_script_trigger_effect
 local function on_script_trigger_effect(event)
-    if not event.effect_id == "xoxo_barrel" then return end
+    if not (event.effect_id == "xoxo_barrel") then return end
     local position = event.target_position
     local surface_index = event.surface_index
     local surface = game.get_surface(surface_index)
