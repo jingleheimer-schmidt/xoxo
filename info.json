@@ -1,0 +1,11 @@
+{
+  "name": "xoxo",
+  "version": "0.1.0",
+  "title": "xoxo",
+  "author": "asher_sky",
+  "contact": "",
+  "homepage": "",
+  "description": "",
+  "factorio_version": "2.0",
+  "dependencies": ["base"]
+}

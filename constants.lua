@@ -1,0 +1,46 @@
+
+local xoxo_sprite_count = 204
+local xoxo_sprite_path = "__xoxo__/graphics/xoxo/xoxo_"
+local xoxo_text = {
+    ":-*",
+    ":*",
+    ";*",
+    ";-*",
+    "=*",
+    ":x",
+    ":X",
+    "xx",
+    "xxx",
+    "xxxx",
+    "xox",
+    "xoxo",
+    "xo xo",
+    "mwah",
+    "*mwah*",
+    "muah",
+    "muah!",
+    "x",
+    "X",
+    "xo",
+    "xoxo",
+    "XOXO",
+    ":*",
+    ":-*",
+    ":x",
+    ":-x",
+    "*smooch*",
+    "*kiss*",
+    "*kith*",
+    "mwah~*",
+    "chu~",
+    "chu!",
+    "chu♡",
+    "xo~xo",
+    "xoxo~",
+}
+
+return {
+    xoxo_sprite_count = xoxo_sprite_count,
+    xoxo_sprite_path = xoxo_sprite_path,
+    xoxo_text = xoxo_text,
+}
