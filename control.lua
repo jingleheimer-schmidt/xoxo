@@ -97,6 +97,49 @@ end
 script.on_event("xoxo-hug", on_hug)
 script.on_event("xoxo-kiss", on_kiss)
 
+---@param position MapPosition
+---@param surface_index integer
+---@param player LuaPlayer
+local function register_position_as_xoxo_source(position, surface_index, player)
+    storage.xoxo_sources = storage.xoxo_sources or {}
+    local source_id = string.format("[%d][%.01f][%.01f]", surface_index, position.x, position.y)
+    storage.xoxo_sources[source_id] = {
+        surface_index = surface_index,
+        position = position,
+        time_to_live = 60 * 11,
+        player = player
+    }
+end
+
+---@param event EventData.on_script_trigger_effect
+local function on_script_trigger_effect(event)
+    if not event.effect_id == "xoxo_barrel" then return end
+    local position = event.target_position
+    local surface_index = event.surface_index
+    local surface = game.get_surface(surface_index)
+    if not surface then return end
+    local source_entity = event.source_entity
+    local player = source_entity and source_entity.player
+    if not player then return end
+    register_position_as_xoxo_source(position, surface_index, player)
+    local characters = surface.find_entities_filtered {
+        position = position,
+        radius = 2,
+        type = "character"
+    }
+    for _, character in pairs(characters) do
+        surface.create_entity {
+            name = "xoxo_sticker_" .. math.random(1, total_sprite_count),
+            position = character.position,
+            target = character,
+            time_to_live = 60 * 60,
+            color = player.color,
+        }
+    end
+end
+
+script.on_event(defines.events.on_script_trigger_effect, on_script_trigger_effect)
+
 local function on_tick(event)
     --[[@type table<integer, xoxo_data>]]
     storage.xoxo = storage.xoxo or {}
@@ -161,6 +204,41 @@ local function on_tick(event)
             -- end
         else
             table.remove(storage.render_objects, i)
+        end
+    end
+    storage.xoxo_sources = storage.xoxo_sources or {}
+    for source_id, source_data in pairs(storage.xoxo_sources) do
+        if math.random() < 0.25 then
+            local sprite_index = math.random(1, total_sprite_count)
+            local scale = math.max(math.random(), 0.1)
+            local render_object = rendering.draw_sprite {
+                sprite = "xoxo_" .. sprite_index,
+                surface = source_data.surface_index,
+                target = source_data.position,
+                tint = source_data.player.color,
+                time_to_live = 95,
+                x_scale = scale,
+                y_scale = scale,
+                orientation_target = source_data.position,
+                orientation = 0.5
+            }
+            storage.render_objects = storage.render_objects or {}
+            local angle = -math.pi + math.random() * math.pi
+            local speed = 0.045 + math.random() * 0.025
+            local velocity_x = math.cos(angle) * speed
+            local velocity_y = math.sin(angle) * speed
+            table.insert(storage.render_objects, {
+                origin = source_data.position,
+                created_tick = game.tick,
+                gravity = (scale / 10000) + math.random() * (scale / 10000),
+                velocity_x = velocity_x,
+                velocity_y = velocity_y,
+                render_object = render_object,
+            })
+        end
+        source_data.time_to_live = source_data.time_to_live - 1
+        if source_data.time_to_live <= 0 then
+            storage.xoxo_sources[source_id] = nil
         end
     end
 end
