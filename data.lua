@@ -44,15 +44,42 @@ for i = 1, total_sprite_count do
     ---@type data.StickerPrototype
     local sticker = {
         type = "sticker",
-        name = "xoxo_" .. i,
-        animation = sprite --[[@as data.Animation]],
+        name = "xoxo_sticker_" .. i,
+        animation = table.deepcopy(sprite) --[[@as data.Animation]],
         duration_in_ticks = 60 * 69,
         hidden = true,
         hidden_in_factoriopedia = true,
         damage_interval = 1,
         damage_per_tick = { amount = -0.01, type = "physical" },
+        stickers_per_square_meter = 25,
     }
+    sticker.animation.scale = 2 / 836
     data:extend { sticker }
+    ---@type data.ProjectilePrototype
+    local projectile = {
+        type = "projectile",
+        name = "xoxo_projectile_" .. i,
+        acceleration = 0.01,
+        animation = sprite --[[@as data.Animation]],
+        action = {
+            {
+                type = "area",
+                radius = 0.25,
+                action_delivery = {
+                    type = "instant",
+                    target_effects = {
+                        {
+                            type = "create-sticker",
+                            sticker = "xoxo_sticker_" .. i
+                        }
+                    }
+                }
+            }
+        },
+        hidden = true,
+        hidden_in_factoriopedia = true,
+    }
+    data:extend { projectile }
 end
 
 ---@type data.ProjectilePrototype
